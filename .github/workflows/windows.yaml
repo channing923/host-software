@@ -56,7 +56,7 @@ jobs:
         # release CDN doesn't kill CI — we have a fallback below, and worst
         # case we degrade to "no cache this run" (build still completes).
         id: setup_oras
-        uses: oras-project/setup-oras@v1
+        uses: oras-project/setup-oras@v2
         continue-on-error: true
 
       - name: Setup oras (manual download fallback)
