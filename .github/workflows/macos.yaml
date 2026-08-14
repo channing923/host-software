@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Sync repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Compute filename-safe ref
         # ref_name contains '/' on feature branches (e.g. fix/foo) which is
