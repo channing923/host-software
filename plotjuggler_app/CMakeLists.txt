@@ -54,6 +54,8 @@ set(PLOTJUGGLER_SRC
     toast_notification.cpp
     toast_manager.cpp
     menubar.cpp
+    measurement_workspace.cpp
+    measurement_workspace.h
     plugin_manager.cpp
     plotwidget.cpp
     plotwidget_editor.cpp

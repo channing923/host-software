@@ -90,7 +90,7 @@
              <bool>false</bool>
             </property>
             <property name="placeholderText">
-             <string>  Filter...</string>
+             <string>  搜索通道...</string>
             </property>
             <property name="clearButtonEnabled">
              <bool>true</bool>
@@ -158,7 +158,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Values</string>
+               <string>实时值</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -173,6 +173,9 @@
          </layout>
         </widget>
         <widget class="QWidget" name="layoutWidget1">
+         <property name="visible">
+          <bool>false</bool>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayoutBottom" stretch="0,0,1">
           <property name="topMargin">
            <number>6</number>

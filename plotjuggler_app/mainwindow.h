@@ -37,6 +37,11 @@
 #include "ui_mainwindow.h"
 
 class QVBoxLayout;
+class MeasurementConfigPanel;
+class MeasurementControlBar;
+class MeasurementDevicePanel;
+class MeasurementFaultPanel;
+class MeasurementOverviewBar;
 
 class MainWindow : public QMainWindow
 {
@@ -186,8 +191,15 @@ private:
   // Toast notification manager
   ToastManager* _toast_manager;
 
+  MeasurementControlBar* _measurement_control_bar = nullptr;
+  MeasurementDevicePanel* _measurement_device_panel = nullptr;
+  MeasurementConfigPanel* _measurement_config_panel = nullptr;
+  MeasurementFaultPanel* _measurement_fault_panel = nullptr;
+  MeasurementOverviewBar* _measurement_overview_bar = nullptr;
+
   void initializeActions();
   void initializePlugins();
+  void setupMeasurementWorkspace();
 
   PluginManager _plugin_manager;
 

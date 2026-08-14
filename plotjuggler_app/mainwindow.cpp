@@ -56,6 +56,7 @@
 #include "PlotJuggler/svg_util.h"
 #include "PlotJuggler/reactive_function.h"
 #include "multifile_prefix.h"
+#include "measurement_workspace.h"
 
 #include "ui_aboutdialog.h"
 #include "ui_support_dialog.h"
@@ -303,9 +304,13 @@ MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* pa
   ui->tabsFrame->layout()->addWidget(_main_tabbed_widget);
   ui->leftLayout->addWidget(_curvelist_widget, 1);
 
+  setupMeasurementWorkspace();
+
   ui->mainSplitter->setCollapsible(0, true);
   ui->mainSplitter->setStretchFactor(0, 2);
   ui->mainSplitter->setStretchFactor(1, 6);
+  ui->mainSplitter->setCollapsible(2, true);
+  ui->mainSplitter->setStretchFactor(2, 0);
 
   connect(ui->mainSplitter, &QSplitter::splitterMoved, this, &MainWindow::on_splitterMoved);
 
@@ -485,6 +490,162 @@ MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* pa
       settings.setValue("MainWindow.previousStreamingPlugin", _default_streamer);
     }
   }
+}
+
+void MainWindow::setupMeasurementWorkspace()
+{
+  setMinimumSize(1280, 720);
+
+  QSettings settings;
+  settings.setValue("Preferences::theme", "dark");
+
+  ui->menuFile->setTitle(tr("文件"));
+  ui->menuCloudData->setTitle(tr("设备"));
+  ui->menuTools->setTitle(tr("工具"));
+  ui->menuHelp->setTitle(tr("帮助"));
+  auto* acquisition_menu = new QMenu(tr("采集"), ui->menuBar);
+  auto* view_menu = new QMenu(tr("视图"), ui->menuBar);
+  ui->menuBar->insertMenu(ui->menuTools->menuAction(), acquisition_menu);
+  ui->menuBar->insertMenu(ui->menuTools->menuAction(), view_menu);
+
+  // The generic PlotJuggler controls remain available through the menus, but the
+  // measurement application presents connection and acquisition in a fixed top bar.
+  ui->widgetLabelLoad->hide();
+  ui->frameFile->hide();
+  ui->widgetLabelStreaming->hide();
+  ui->frameStreaming->hide();
+  ui->widgetLabelPublishers->hide();
+  ui->framePublishers->hide();
+  ui->widgetLabelTimeseries->hide();
+  ui->leftMainWindowFrame->setMinimumWidth(205);
+  _curvelist_widget->hide();
+
+  _measurement_device_panel = new MeasurementDevicePanel(ui->leftMainWindowFrame);
+  ui->leftLayout->insertWidget(0, _measurement_device_panel);
+
+  _measurement_control_bar = new MeasurementControlBar(ui->centralWidget);
+  ui->verticalLayout->insertWidget(0, _measurement_control_bar);
+
+  _measurement_overview_bar = new MeasurementOverviewBar(ui->tabsFrame);
+  if (auto* tabs_layout = qobject_cast<QVBoxLayout*>(ui->tabsFrame->layout()))
+  {
+    tabs_layout->insertWidget(0, _measurement_overview_bar);
+  }
+
+  _main_tabbed_widget->setControlsVisible(false);
+  _main_tabbed_widget->tabWidget()->tabBar()->hide();
+  ui->widgetTimescale->hide();
+  ui->buttonLink->hide();
+  ui->buttonTimeTracker->hide();
+  ui->buttonReferencePoint->hide();
+  ui->buttonLegend->hide();
+  ui->buttonActivateGrid->hide();
+  ui->buttonRatio->hide();
+  ui->buttonUseDateTime->hide();
+  ui->buttonZoomOut->hide();
+  ui->buttonDots->hide();
+  ui->plottingLayout->setContentsMargins(6, 6, 6, 2);
+
+  if (auto* docker = _main_tabbed_widget->currentTab())
+  {
+    if (docker->plotCount() == 1)
+    {
+      QWidget* ancestor = docker->plotAt(0);
+      while (ancestor && !qobject_cast<DockWidget*>(ancestor))
+      {
+        ancestor = ancestor->parentWidget();
+      }
+      if (auto* first_plot = qobject_cast<DockWidget*>(ancestor))
+      {
+        first_plot->toolBar()->label()->setText(tr("组A · 高压波形"));
+        if (auto* second_plot = first_plot->splitVertical())
+        {
+          second_plot->toolBar()->label()->setText(tr("组B · 温度趋势"));
+        }
+      }
+    }
+  }
+
+  _measurement_config_panel = new MeasurementConfigPanel(ui->mainSplitter);
+  ui->mainSplitter->addWidget(_measurement_config_panel);
+
+  _measurement_fault_panel = new MeasurementFaultPanel(ui->centralWidget);
+  ui->verticalLayout->addWidget(_measurement_fault_panel);
+
+  const bool config_collapsed =
+      settings.value("MeasurementWorkspace.configCollapsed", false).toBool();
+  const bool faults_expanded =
+      settings.value("MeasurementWorkspace.faultsExpanded", false).toBool();
+  _measurement_config_panel->setCollapsed(config_collapsed);
+  _measurement_fault_panel->setExpanded(faults_expanded);
+
+  int left_width = settings.value("MeasurementWorkspace.leftWidth", 280).toInt();
+  int right_width = settings.value("MeasurementWorkspace.rightWidth", 320).toInt();
+  if (config_collapsed)
+  {
+    right_width = 34;
+  }
+  ui->mainSplitter->setSizes({ left_width, 800, right_width });
+
+  connect(_measurement_config_panel, &MeasurementConfigPanel::collapsedChanged, this,
+          [](bool collapsed) {
+            QSettings().setValue("MeasurementWorkspace.configCollapsed", collapsed);
+          });
+  connect(_measurement_fault_panel, &MeasurementFaultPanel::expandedChanged, this,
+          [](bool expanded) {
+            QSettings().setValue("MeasurementWorkspace.faultsExpanded", expanded);
+          });
+
+  connect(_measurement_control_bar, &MeasurementControlBar::refreshPortsRequested, this,
+          [this]() {
+            showToast(tr("串口扫描将在通信模块接入后启用。当前阶段只构建界面与交互骨架。"));
+          });
+  connect(_measurement_control_bar, &MeasurementControlBar::connectionRequested, this,
+          [this](const QString&, int) {
+            showToast(tr("设备握手和二进制协议尚未接入，未执行真实连接。"));
+          });
+  connect(_measurement_control_bar, &MeasurementControlBar::disconnectionRequested, this,
+          [this]() {
+            if (_active_streamer_plugin)
+            {
+              stopStreamingPlugin();
+            }
+          });
+  connect(_measurement_control_bar, &MeasurementControlBar::startRequested, this, [this]() {
+    if (_active_streamer_plugin && ui->buttonStreamingPause->isChecked())
+    {
+      ui->buttonStreamingPause->setChecked(false);
+    }
+  });
+  connect(_measurement_control_bar, &MeasurementControlBar::pauseDisplayRequested, this,
+          [this](bool paused) {
+            if (_active_streamer_plugin)
+            {
+              ui->buttonStreamingPause->setChecked(paused);
+            }
+          });
+  connect(_measurement_control_bar, &MeasurementControlBar::stopRequested, this,
+          [this]() { stopStreamingPlugin(); });
+  connect(_measurement_control_bar, &MeasurementControlBar::singleRequested, this,
+          [this]() { showToast(tr("单次缓冲采集将在设备协议模块中实现。")); });
+  connect(_measurement_control_bar, &MeasurementControlBar::clearRequested, this,
+          &MainWindow::on_actionClearBuffer_triggered);
+
+  connect(_measurement_device_panel, &MeasurementDevicePanel::addVirtualChannelRequested, this,
+          [this]() { showToast(tr("虚拟通道编辑器将在通道模型完成后接入。")); });
+  connect(_measurement_device_panel, &MeasurementDevicePanel::addWaveformGroupRequested, this,
+          [this]() { showToast(tr("可先使用波形区域的水平/垂直分割创建显示区域。")); });
+  connect(_measurement_config_panel, &MeasurementConfigPanel::applyRequested, this,
+          [this](const QString&) {
+            showToast(tr("参数已保持为待应用状态；设备应答流程尚未接入。"));
+          });
+  connect(_measurement_fault_panel, &MeasurementFaultPanel::faultActivated, this,
+          [this](double timestamp, const QString&) {
+            if (!_mapped_plot_data.numeric.empty())
+            {
+              onTrackerTimeUpdated(timestamp, true);
+            }
+          });
 }
 
 MainWindow::~MainWindow()
@@ -1669,6 +1830,13 @@ void MainWindow::on_buttonStreamingPause_toggled(bool paused)
     paused = true;
   }
 
+  if (_measurement_control_bar && _active_streamer_plugin)
+  {
+    _measurement_control_bar->setAcquisitionState(
+        paused ? MeasurementControlBar::AcquisitionState::DisplayPaused :
+                 MeasurementControlBar::AcquisitionState::Running);
+  }
+
   ui->buttonRemoveTimeOffset->setEnabled(paused);
   ui->widgetPlay->setEnabled(paused);
 
@@ -1734,6 +1902,27 @@ void MainWindow::stopStreamingPlugin()
 
   // reset max range.
   _mapped_plot_data.setMaximumRangeX(std::numeric_limits<double>::max());
+
+  if (_measurement_control_bar)
+  {
+    _measurement_control_bar->setAcquisitionState(
+        MeasurementControlBar::AcquisitionState::Idle);
+    _measurement_control_bar->setConnectionState(
+        MeasurementControlBar::ConnectionState::Disconnected);
+    _measurement_control_bar->setDeviceSummary({});
+  }
+  if (_measurement_device_panel)
+  {
+    _measurement_device_panel->setDeviceSummary({}, {}, false);
+  }
+  if (_measurement_config_panel)
+  {
+    _measurement_config_panel->setConnected(false);
+  }
+  if (_measurement_fault_panel)
+  {
+    _measurement_fault_panel->setConnectionSummary(tr("设备未连接"), "idle");
+  }
 }
 
 void MainWindow::startStreamingPlugin(QString streamer_name)
@@ -1798,6 +1987,28 @@ void MainWindow::startStreamingPlugin(QString streamer_name)
     on_buttonStreamingPause_toggled(false);
     // this will force the update the max buffer size values
     on_streamingSpinBox_valueChanged(ui->streamingSpinBox->value());
+
+    if (_measurement_control_bar)
+    {
+      _measurement_control_bar->setConnectionState(
+          MeasurementControlBar::ConnectionState::Connected);
+      _measurement_control_bar->setAcquisitionState(
+          MeasurementControlBar::AcquisitionState::Running);
+      _measurement_control_bar->setDeviceSummary(streamer_name);
+    }
+    if (_measurement_device_panel)
+    {
+      _measurement_device_panel->setDeviceSummary(streamer_name, tr("数据流已启动"), true);
+    }
+    if (_measurement_config_panel)
+    {
+      _measurement_config_panel->setConnected(true);
+      _measurement_config_panel->setContextText(tr("当前对象：%1").arg(streamer_name));
+    }
+    if (_measurement_fault_panel)
+    {
+      _measurement_fault_panel->setConnectionSummary(tr("设备已连接"), "good");
+    }
   }
   else
   {
@@ -2887,6 +3098,16 @@ void MainWindow::closeEvent(QCloseEvent* event)
   settings.setValue("MainWindow.streamingBufferValue", ui->streamingSpinBox->value());
   settings.setValue("MainWindow.timeTrackerSetting", (int)_tracker_param);
   settings.setValue("MainWindow.splitterWidth", ui->mainSplitter->sizes()[0]);
+
+  const auto workspace_sizes = ui->mainSplitter->sizes();
+  if (workspace_sizes.size() >= 3)
+  {
+    settings.setValue("MeasurementWorkspace.leftWidth", workspace_sizes[0]);
+    if (!_measurement_config_panel || !_measurement_config_panel->isCollapsed())
+    {
+      settings.setValue("MeasurementWorkspace.rightWidth", workspace_sizes[2]);
+    }
+  }
 
   _plugin_manager.unloadAllPlugins();
 }

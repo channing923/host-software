@@ -125,6 +125,109 @@ QToolTip {
     background: ${widget_background};
     color: ${default_text}; }
 
+/* Measurement workspace -------------------------------------------------- */
+
+QFrame#measurementControlBar,
+QFrame#measurementDevicePanel,
+QFrame#measurementConfigPanel,
+QFrame#measurementFaultPanel {
+    background: #f7f8fa;
+    border: 1px solid #b8bec7;
+}
+
+QFrame#measurementControlBar {
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+}
+
+QFrame#measurementFaultPanel {
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+}
+
+QLabel#measurementSectionTitle,
+QLabel#measurementPanelTitle,
+QLabel#measurementDeviceName {
+    font-weight: 600;
+    font-size: 11pt;
+}
+
+QLabel#measurementSecondaryText,
+QLabel#measurementContextLabel,
+QLabel#measurementDeviceSummary,
+QLabel#measurementStatusMetric {
+    color: #5b6470;
+}
+
+QLabel#measurementStatusIndicator[status="idle"] {
+    color: #8b929c;
+}
+
+QLabel#measurementStatusIndicator[status="good"] {
+    color: #229a54;
+}
+
+QLabel#measurementStatusIndicator[status="warning"] {
+    color: #c98400;
+}
+
+QLabel#measurementStatusIndicator[status="error"] {
+    color: #d62f41;
+}
+
+QLabel#measurementAlarmSummary {
+    color: #505964;
+    font-weight: 600;
+}
+
+QFrame#measurementDivider {
+    color: #b8bec7;
+}
+
+QPushButton[role="primary"] {
+    color: white;
+    background: #1769d2;
+    border: 1px solid #0f59b8;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+QPushButton[role="primary"]:hover {
+    background: #247bec;
+}
+
+QPushButton[role="danger"] {
+    color: #c52536;
+    background: transparent;
+    border: 1px solid #cf5260;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+QPushButton[role="danger"]:hover {
+    color: white;
+    background: #c93242;
+}
+
+QPushButton[role="primary"]:disabled,
+QPushButton[role="danger"]:disabled {
+    color: #8c9299;
+    background: #e2e5e9;
+    border-color: #b9bec5;
+}
+
+QFrame#measurementConfigPanel QTabWidget {
+    margin-left: 0px;
+}
+
+QFrame#measurementFaultPanel QTableWidget {
+    background: #ffffff;
+    alternate-background-color: #f1f3f5;
+    border: 1px solid #b8bec7;
+}
+
 
 /* QScrollArea ------------------------------------------------------------
 

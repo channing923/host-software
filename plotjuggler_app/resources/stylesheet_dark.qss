@@ -2,20 +2,20 @@
 
 theme: dark
 
-widget_background: #333333
-main_background: #404040
-dark_background: #444444
+widget_background: #151a20
+main_background: #11161c
+dark_background: #0d1116
 
 default_text:  #F0F0F0
-disabled_text: #777777
+disabled_text: #58616d
 
-widget_background_disabled: #404040;
+widget_background_disabled: #171c22;
 
-border_default: #666666
-border_hover:   #148CD2
-border_checked: #1177ff
+border_default: #2b333d
+border_hover:   #2784ff
+border_checked: #2784ff
 
-item_selection_background: #148CD2
+item_selection_background: #163b68
 
 //------- PALETTE END --------
 
@@ -23,7 +23,7 @@ QWidget {
   background: transparent;
   padding: 0px;
   color: ${default_text};
-  font-size: 10pt;
+  font-size: 9pt;
 }
 
 QWidget:disabled{
@@ -124,6 +124,265 @@ QToolTip {
     border-radius: 2px;
     background: ${widget_background};
     color: ${default_text}; }
+
+/* Measurement workspace -------------------------------------------------- */
+
+QFrame#measurementControlBar,
+QFrame#measurementDevicePanel,
+QFrame#measurementConfigPanel,
+QFrame#measurementFaultPanel {
+    background: #10151b;
+    border: 1px solid #252d36;
+}
+
+QFrame#measurementControlBar {
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+}
+
+QToolButton[role="workspaceNavigation"] {
+    color: #88939f;
+    background: transparent;
+    border: 0px;
+    border-bottom: 2px solid transparent;
+    padding: 0px 16px;
+    min-height: 38px;
+}
+
+QToolButton[role="workspaceNavigation"]:checked {
+    color: #e8f1ff;
+    background: #121b27;
+    border-bottom: 2px solid #2784ff;
+}
+
+QFrame#measurementControlBar QPushButton {
+    min-height: 25px;
+    border-radius: 13px;
+    padding: 0px 11px;
+}
+
+QPushButton[role="primary"] {
+    color: white;
+    background: #1668e8;
+    border: 1px solid #2784ff;
+    border-radius: 3px;
+    padding: 5px 12px;
+}
+
+QPushButton[role="primary"]:hover {
+    background: #2679ef;
+}
+
+QPushButton[role="secondaryAction"] {
+    color: #d6dde6;
+    background: #1a2028;
+    border: 1px solid #39424d;
+}
+
+QPushButton[role="quietAction"] {
+    color: #98a3af;
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+QPushButton[role="danger"] {
+    color: #ff6372;
+    background: #24171b;
+    border: 1px solid #9d3441;
+    border-radius: 3px;
+    padding: 5px 12px;
+}
+
+QPushButton[role="danger"]:hover {
+    color: white;
+    background: #a93644;
+}
+
+QPushButton[role="primary"]:disabled,
+QPushButton[role="danger"]:disabled,
+QPushButton[role="secondaryAction"]:disabled {
+    color: #59636f;
+    background: #171c22;
+    border-color: #2b333d;
+}
+
+QFrame#measurementOverviewBar {
+    background: #0d1116;
+    border: 0px;
+}
+
+QFrame#measurementMetricCard {
+    background: #151b22;
+    border: 1px solid #252e38;
+    border-radius: 2px;
+}
+
+QLabel#measurementMetricTitle {
+    color: #7f8b98;
+    font-size: 8pt;
+}
+
+QLabel#measurementMetricValue {
+    color: #eaf1f8;
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+QFrame#measurementMetricTools {
+    background: #151b22;
+    border: 1px solid #252e38;
+}
+
+QFrame#measurementMetricTools QToolButton {
+    color: #8e99a5;
+    background: #11161c;
+    border: 1px solid #303945;
+    border-radius: 2px;
+}
+
+QWidget#measurementPanelHeader {
+    min-height: 31px;
+    max-height: 31px;
+    background: #141a21;
+    border-bottom: 1px solid #252d36;
+}
+
+QLabel#measurementPanelTitle,
+QLabel#measurementDeviceName {
+    color: #d8e0e9;
+    font-weight: 600;
+}
+
+QWidget#measurementDeviceSummaryBlock {
+    background: #11171d;
+    border-bottom: 1px solid #252d36;
+}
+
+QLabel#measurementSecondaryText,
+QLabel#measurementContextLabel,
+QLabel#measurementDeviceSummary,
+QLabel#measurementStatusMetric {
+    color: #75818e;
+    font-size: 8pt;
+}
+
+QTreeWidget#measurementChannelTree {
+    background: #10151b;
+    border: 0px;
+    outline: 0px;
+    padding: 3px;
+}
+
+QTreeWidget#measurementChannelTree::item {
+    min-height: 25px;
+    color: #aeb8c3;
+    border-radius: 2px;
+}
+
+QTreeWidget#measurementChannelTree::item:selected {
+    color: white;
+    background: #193a63;
+}
+
+QWidget#measurementPanelFooter {
+    background: #11171d;
+    border-top: 1px solid #252d36;
+}
+
+QWidget#measurementPanelFooter QPushButton {
+    color: #8f9aa6;
+    background: transparent;
+    border: 1px solid #2b343e;
+    padding: 4px;
+}
+
+QLabel#measurementStatusIndicator[status="idle"] { color: #55616d; }
+QLabel#measurementStatusIndicator[status="good"] { color: #29cc6a; }
+QLabel#measurementStatusIndicator[status="warning"] { color: #f0b429; }
+QLabel#measurementStatusIndicator[status="error"] { color: #ff4d5e; }
+
+QFrame#measurementConfigPanel QTabWidget {
+    margin-left: 0px;
+    background: #10151b;
+}
+
+QTabWidget#measurementConfigTabs::pane {
+    top: -1px;
+    border: 0px;
+    border-top: 1px solid #252d36;
+    background: #10151b;
+}
+
+QTabWidget#measurementConfigTabs QTabBar::tab {
+    min-width: 42px;
+    min-height: 31px;
+    color: #7f8a96;
+    background: #11171d;
+    border: 0px;
+    border-bottom: 2px solid transparent;
+    padding: 0px 8px;
+}
+
+QTabWidget#measurementConfigTabs QTabBar::tab:selected {
+    color: #dfe9f4;
+    background: #151d27;
+    border-bottom: 2px solid #2784ff;
+}
+
+QGroupBox#measurementParameterGroup {
+    color: #9eabb8;
+    background: #131920;
+    border: 1px solid #252e38;
+    border-radius: 2px;
+    margin-top: 14px;
+    padding: 15px 6px 6px 6px;
+}
+
+QGroupBox#measurementParameterGroup::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 7px;
+    padding: 0px 3px;
+    color: #c2ccd7;
+}
+
+QLabel#measurementConnectionState {
+    color: #63707d;
+    padding: 6px;
+}
+
+QFrame#measurementFaultPanel {
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+}
+
+QLabel#measurementAlarmSummary {
+    color: #7f8b98;
+    font-size: 8pt;
+}
+
+QFrame#measurementDivider { color: #2a323c; }
+
+QFrame#measurementFaultPanel QTableWidget {
+    background: #10151b;
+    alternate-background-color: #141a21;
+    border: 1px solid #252d36;
+}
+
+DockToolbar {
+    background: #141a21;
+    border: 1px solid #252d36;
+    min-height: 25px;
+    max-height: 25px;
+}
+
+DockToolbar QLabel {
+    color: #aeb8c3;
+    font-size: 8pt;
+    font-weight: 600;
+}
 
 
 /* QScrollArea ------------------------------------------------------------
