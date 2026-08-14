@@ -247,44 +247,6 @@
              </item>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Skip Splash Screen on Startup:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QCheckBox" name="checkBoxSkipSplash">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling this will make PlotJuggler less fun.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>enabled</string>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>
@@ -485,7 +447,7 @@
           <item>
            <widget class="QCheckBox" name="checkBoxTruncation">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;PlotJuggler uses double (64bits) internally.&lt;/p&gt;&lt;p&gt;This means that integer numbers with more than 52 significant bits &lt;span style=&quot; font-weight:700;&quot;&gt;can not be represented&lt;/span&gt; exactly.&lt;/p&gt;&lt;p&gt;Disabling this check, you allow static type conversion and accept some degree of  numerical errors. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;鸡你太美 uses double (64bits) internally.&lt;/p&gt;&lt;p&gt;This means that integer numbers with more than 52 significant bits &lt;span style=&quot; font-weight:700;&quot;&gt;can not be represented&lt;/span&gt; exactly.&lt;/p&gt;&lt;p&gt;Disabling this check, you allow static type conversion and accept some degree of numerical errors.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Strict Truncation check (uncheck at your own risk)</string>
@@ -656,7 +618,7 @@
        <item>
         <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt;: this change will take effect the next time PlotJuggler is started&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt;: this change will take effect the next time 鸡你太美 is started&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

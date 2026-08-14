@@ -19,7 +19,7 @@ fi
 # before packaging.
 ./linuxdeploy-x86_64.AppImage --appimage-extract-and-run \
     --appdir "$APPDIRPATH" \
-    -d ../io.plotjuggler.PlotJuggler.desktop \
+    -d ../jinitaimei.desktop \
     -i ../plotjuggler.png \
     --plugin qt \
     || { echo "ERROR: linuxdeploy Qt deploy stage failed" >&2; exit 1; }

@@ -46,10 +46,10 @@ Component.prototype.createOperations = function()
         // call the base create operations function
         component.createOperations();
 		if (systemInfo.productType === "windows") {
-			component.addOperation("CreateShortcut", "@TargetDir@/PlotJuggler.exe", "@StartMenuDir@/PlotJuggler.lnk",
-				"workingDirectory=@TargetDir@",	"iconId=0", "description=Launch PlotJuggler");
-			component.addOperation("CreateShortcut", "@TargetDir@/PlotJuggler.exe", "@DesktopDir@/PlotJuggler.lnk",
-				"workingDirectory=@TargetDir@",	"iconId=0", "description=Launch PlotJuggler");
+			component.addOperation("CreateShortcut", "@TargetDir@/PlotJuggler.exe", "@StartMenuDir@/鸡你太美.lnk",
+				"workingDirectory=@TargetDir@",	"iconId=0", "description=启动鸡你太美");
+			component.addOperation("CreateShortcut", "@TargetDir@/PlotJuggler.exe", "@DesktopDir@/鸡你太美.lnk",
+				"workingDirectory=@TargetDir@",	"iconId=0", "description=启动鸡你太美");
 		}
     } catch (e) {
         console.log(e);
@@ -66,7 +66,7 @@ Component.prototype.installerLoaded = function()
 
     targetDirectoryPage = gui.pageWidgetByObjectName("DynamicTargetWidget");
     targetDirectoryPage.windowTitle = "Choose Installation Directory";
-    targetDirectoryPage.description.setText("Please select where PlotJuggler will be installed:");
+    targetDirectoryPage.description.setText("请选择鸡你太美的安装位置：");
     targetDirectoryPage.targetDirectory.textChanged.connect(this, this.targetDirectoryChanged);
     targetDirectoryPage.targetDirectory.setText(installer.value("TargetDir"));
     targetDirectoryPage.targetChooser.released.connect(this, this.targetChooserClicked);

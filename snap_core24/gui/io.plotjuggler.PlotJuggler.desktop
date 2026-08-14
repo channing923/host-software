@@ -1,9 +1,11 @@
 [Desktop Entry]
 Type=Application
-Name=PlotJuggler
+Name=鸡你太美
 Exec=plotjuggler
-Icon=${SNAP}/meta/gui/plotjuggler.svg
-Comment=Visualize timeseries like a pro
+Icon=${SNAP}/meta/gui/plotjuggler.png
+Comment=多通道测量与设备配置平台
 Terminal=false
 Categories=Development;
-Name[en_US]=PlotJuggler
+StartupWMClass=jinitaimei
+Name[en_US]=鸡你太美
+Name[zh_CN]=鸡你太美

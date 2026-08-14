@@ -2,7 +2,7 @@
 Type=Application
 Name=鸡你太美
 Exec=plotjuggler
-Icon=${SNAP}/meta/gui/plotjuggler.png
+Icon=plotjuggler
 Comment=多通道测量与设备配置平台
 Terminal=false
 Categories=Development;

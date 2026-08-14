@@ -18,114 +18,13 @@
         <file>resources/github.png</file>
         <file>resources/lua_style_dark.xml</file>
         <file>resources/lua_style_light.xml</file>
-        <file>resources/memes/meme_00.jpg</file>
-        <file>resources/memes/meme_01.jpg</file>
-        <file>resources/memes/meme_02.jpg</file>
-        <file>resources/memes/meme_03.jpg</file>
-        <file>resources/memes/meme_04.jpg</file>
-        <file>resources/memes/meme_05.jpg</file>
-        <file>resources/memes/meme_06.jpg</file>
-        <file>resources/memes/meme_07.jpg</file>
-        <file>resources/memes/meme_08.jpg</file>
-        <file>resources/memes/meme_09.jpg</file>
-        <file>resources/memes/meme_10.jpg</file>
-        <file>resources/memes/meme_100.jpg</file>
-        <file>resources/memes/meme_101.jpg</file>
-        <file>resources/memes/meme_102.jpg</file>
-        <file>resources/memes/meme_11.jpg</file>
-        <file>resources/memes/meme_12.jpg</file>
-        <file>resources/memes/meme_13.jpg</file>
-        <file>resources/memes/meme_14.jpg</file>
-        <file>resources/memes/meme_15.jpg</file>
-        <file>resources/memes/meme_16.jpg</file>
-        <file>resources/memes/meme_17.jpg</file>
-        <file>resources/memes/meme_18.jpg</file>
-        <file>resources/memes/meme_19.jpg</file>
-        <file>resources/memes/meme_20.jpg</file>
-        <file>resources/memes/meme_21.jpg</file>
-        <file>resources/memes/meme_22.jpg</file>
-        <file>resources/memes/meme_23.jpg</file>
-        <file>resources/memes/meme_24.jpg</file>
-        <file>resources/memes/meme_25.jpg</file>
-        <file>resources/memes/meme_26.jpg</file>
-        <file>resources/memes/meme_27.jpg</file>
-        <file>resources/memes/meme_28.jpg</file>
-        <file>resources/memes/meme_29.jpg</file>
-        <file>resources/memes/meme_30.jpg</file>
-        <file>resources/memes/meme_31.jpg</file>
-        <file>resources/memes/meme_32.jpg</file>
-        <file>resources/memes/meme_33.jpg</file>
-        <file>resources/memes/meme_34.jpg</file>
-        <file>resources/memes/meme_35.jpg</file>
-        <file>resources/memes/meme_36.jpg</file>
-        <file>resources/memes/meme_37.jpg</file>
-        <file>resources/memes/meme_38.jpg</file>
-        <file>resources/memes/meme_39.jpg</file>
-        <file>resources/memes/meme_40.jpg</file>
-        <file>resources/memes/meme_41.jpg</file>
-        <file>resources/memes/meme_42.jpg</file>
-        <file>resources/memes/meme_43.jpg</file>
-        <file>resources/memes/meme_44.jpg</file>
-        <file>resources/memes/meme_45.jpg</file>
-        <file>resources/memes/meme_46.jpg</file>
-        <file>resources/memes/meme_47.jpg</file>
-        <file>resources/memes/meme_48.jpg</file>
-        <file>resources/memes/meme_49.jpg</file>
-        <file>resources/memes/meme_50.jpg</file>
-        <file>resources/memes/meme_51.jpg</file>
-        <file>resources/memes/meme_52.jpg</file>
-        <file>resources/memes/meme_53.jpg</file>
-        <file>resources/memes/meme_54.jpg</file>
-        <file>resources/memes/meme_55.jpg</file>
-        <file>resources/memes/meme_56.jpg</file>
-        <file>resources/memes/meme_57.jpg</file>
-        <file>resources/memes/meme_58.jpg</file>
-        <file>resources/memes/meme_59.jpg</file>
-        <file>resources/memes/meme_60.jpg</file>
-        <file>resources/memes/meme_61.jpg</file>
-        <file>resources/memes/meme_62.jpg</file>
-        <file>resources/memes/meme_63.jpg</file>
-        <file>resources/memes/meme_64.jpg</file>
-        <file>resources/memes/meme_65.jpg</file>
-        <file>resources/memes/meme_66.jpg</file>
-        <file>resources/memes/meme_67.jpg</file>
-        <file>resources/memes/meme_68.jpg</file>
-        <file>resources/memes/meme_69.jpg</file>
-        <file>resources/memes/meme_70.jpg</file>
-        <file>resources/memes/meme_71.jpg</file>
-        <file>resources/memes/meme_72.jpg</file>
-        <file>resources/memes/meme_75.jpg</file>
-        <file>resources/memes/meme_76.jpg</file>
-        <file>resources/memes/meme_77.jpg</file>
-        <file>resources/memes/meme_78.jpg</file>
-        <file>resources/memes/meme_79.jpg</file>
-        <file>resources/memes/meme_80.jpg</file>
-        <file>resources/memes/meme_81.jpg</file>
-        <file>resources/memes/meme_82.jpg</file>
-        <file>resources/memes/meme_84.jpg</file>
-        <file>resources/memes/meme_85.jpg</file>
-        <file>resources/memes/meme_86.jpg</file>
-        <file>resources/memes/meme_87.jpg</file>
-        <file>resources/memes/meme_88.jpg</file>
-        <file>resources/memes/meme_89.jpg</file>
-        <file>resources/memes/meme_90.jpg</file>
-        <file>resources/memes/meme_91.jpg</file>
-        <file>resources/memes/meme_92.jpg</file>
-        <file>resources/memes/meme_93.jpg</file>
-        <file>resources/memes/meme_94.jpg</file>
-        <file>resources/memes/meme_95.jpg</file>
-        <file>resources/memes/meme_96.jpg</file>
-        <file>resources/memes/meme_97.jpg</file>
-        <file>resources/memes/meme_98.jpg</file>
-        <file>resources/memes/meme_99.jpg</file>
         <file>resources/office_chart_line_stacked.png</file>
-        <file>resources/plotjuggler.svg</file>
+        <file>resources/plotjuggler.png</file>
         <file>resources/skin/about_window_body.html</file>
         <file>resources/skin/about_window_title.html</file>
         <file>resources/skin/mainwindow_title.txt</file>
         <file>resources/stylesheet_dark.qss</file>
         <file>resources/stylesheet_light.qss</file>
-        <file>resources/success_kid.png</file>
         <file>resources/svg/Fx.svg</file>
         <file>resources/svg/add_column.svg</file>
         <file>resources/svg/add_row.svg</file>
@@ -335,9 +234,6 @@
         <file>style_light/window_close_disabled.png</file>
         <file>style_light/window_close_focus.png</file>
         <file>style_light/window_close_pressed.png</file>
-        <file>resources/memes/meme_103.jpg</file>
-        <file>resources/memes/meme_104.jpg</file>
-        <file>resources/memes/meme_105.jpg</file>
         <file>resources/svg/apps_box.svg</file>
     </qresource>
 </RCC>

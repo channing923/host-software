@@ -3,4 +3,3 @@
 - mainwindow_title.txt
 - about_window_title.html
 - about_window_body.html
-- pj_splashscreen.png

@@ -7,22 +7,11 @@
 #include "mainwindow.h"
 #include <iostream>
 #include <QApplication>
-#include <QSplashScreen>
-#include <QThread>
 #include <QCommandLineParser>
-#include <QDesktopWidget>
 #include <QFontDatabase>
 #include <QSettings>
-#include <QPushButton>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QJsonDocument>
 #include <QDir>
 #include <QDialog>
-#include <QDesktopServices>
-#include <QHostInfo>
-#include <QSslConfiguration>
-#include <QSslSocket>
 #include <QStyleFactory>
 #include <QMessageBox>
 #include <QTimer>
@@ -81,63 +70,6 @@ static std::vector<std::string> RemoveRos2Arguments(int argc, char* argv[])
 
 static QString VERSION_STRING =
     QString("%1.%2.%3").arg(PJ_MAJOR_VERSION).arg(PJ_MINOR_VERSION).arg(PJ_PATCH_VERSION);
-
-inline int GetVersionNumber(QString str)
-{
-  QStringList online_version = str.split('.');
-  if (online_version.size() != 3)
-  {
-    return 0;
-  }
-  int major = online_version[0].toInt();
-  int minor = online_version[1].toInt();
-  int patch = online_version[2].toInt();
-  return major * 10000 + minor * 100 + patch;
-}
-
-QPixmap getFunnySplashscreen()
-{
-  QSettings settings;
-  srand(time(nullptr));
-
-  auto getNum = []() {
-    const int last_image_num = 106;
-    return rand() % (last_image_num);
-  };
-
-  std::set<int> previous_set;
-  std::list<int> previous_nums;
-
-  QStringList previous_list = settings.value("previousFunnyMemesList").toStringList();
-  for (auto str : previous_list)
-  {
-    int num = str.toInt();
-    previous_set.insert(num);
-    previous_nums.push_back(num);
-  }
-
-  int n = getNum();
-  while (previous_set.count(n) != 0)
-  {
-    n = getNum();
-  }
-
-  while (previous_nums.size() >= 10)
-  {
-    previous_nums.pop_front();
-  }
-  previous_nums.push_back(n);
-
-  QStringList new_list;
-  for (int num : previous_nums)
-  {
-    new_list.push_back(QString::number(num));
-  }
-
-  settings.setValue("previousFunnyMemesList", new_list);
-  auto filename = QString("://resources/memes/meme_%1.jpg").arg(n, 2, 10, QChar('0'));
-  return QPixmap(filename);
-}
 
 std::vector<std::string> MergeArguments(const std::vector<std::string>& args)
 {
@@ -207,8 +139,12 @@ int main(int argc, char* argv[])
   // inconsistent widget sizing in the AppImage.
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  QCoreApplication::setOrganizationName("PlotJuggler");
+  QCoreApplication::setApplicationName(QStringLiteral("jinitaimei"));
 
   QApplication app(new_argc, new_argv.data());
+  QApplication::setApplicationDisplayName(QStringLiteral("鸡你太美"));
+  QApplication::setDesktopFileName(QStringLiteral("jinitaimei"));
 
   // Pin the Qt base style so the app's QSS paints on top of a known
   // palette. Without this, the AppImage inherits the host's Qt platform
@@ -219,11 +155,26 @@ int main(int argc, char* argv[])
 
   //-------------------------
 
-  QCoreApplication::setOrganizationName("PlotJuggler");
-  QCoreApplication::setApplicationName("io.plotjuggler.PlotJuggler");
   QSettings::setDefaultFormat(QSettings::IniFormat);
 
   QSettings settings;
+
+  // Preserve settings created before the application was renamed.
+  if (settings.allKeys().isEmpty())
+  {
+    const QStringList legacy_names = { QStringLiteral("鸡你太美"),
+                                       QStringLiteral("io.plotjuggler.PlotJuggler") };
+    for (const QString& legacy_name : legacy_names)
+    {
+      QSettings legacy_settings(QSettings::IniFormat, QSettings::UserScope, "PlotJuggler",
+                                legacy_name);
+      for (const QString& key : legacy_settings.allKeys())
+      {
+        settings.setValue(key, legacy_settings.value(key));
+      }
+    }
+    settings.sync();
+  }
 
   if (!settings.isWritable())
   {
@@ -250,15 +201,9 @@ int main(int argc, char* argv[])
   //---------------------------
 
   QCommandLineParser parser;
-  parser.setApplicationDescription("PlotJuggler: the time series visualization"
-                                   " tool that you deserve ");
+  parser.setApplicationDescription("鸡你太美：多通道测量与设备配置平台");
   parser.addVersionOption();
   parser.addHelpOption();
-
-  QCommandLineOption nosplash_option(QStringList() << "n"
-                                                   << "nosplash",
-                                     "Don't display the splashscreen");
-  parser.addOption(nosplash_option);
 
   QCommandLineOption test_option(QStringList() << "t"
                                                << "test",
@@ -359,23 +304,9 @@ int main(int argc, char* argv[])
     }
   }
 
-  QIcon app_icon("://resources/plotjuggler.svg");
+  QIcon app_icon(":/resources/plotjuggler.png");
   QApplication::setWindowIcon(app_icon);
 
-  MainWindow* window = nullptr;
-
-  /*
-   * You, fearless code reviewer, decided to start a journey into my source code.
-   * For your bravery, you deserve to know the truth.
-   * The splashscreen is useless; not only it is useless, it will make your start-up
-   * time slower by few seconds for absolutely no reason.
-   * But what are two seconds compared with the time that PlotJuggler will save you?
-   * The splashscreen is the connection between me and my users, the glue that keeps
-   * together our invisible relationship.
-   * Now, it is up to you to decide: you can block the splashscreen forever or not,
-   * reject a message that brings a little of happiness into your day, spent analyzing
-   * data. Please don't do it.
-   */
 #ifdef PJ_HAS_PYTHON
   // Probe the embedded Python interpreter BEFORE constructing MainWindow, so
   // FunctionEditorWidget (built inside the MainWindow ctor) sees the correct
@@ -389,56 +320,7 @@ int main(int argc, char* argv[])
   }
 #endif
 
-  if (!parser.isSet(nosplash_option) &&
-      !(parser.isSet(loadfile_option) || parser.isSet(layout_option)) &&
-      !(settings.value("Preferences::no_splash", false).toBool()))
-  // if(false) // if you uncomment this line, a kitten will die somewhere in the world.
-  {
-    QPixmap main_pixmap;
-
-    if (parser.isSet(skin_path_option))
-    {
-      QDir path(parser.value(skin_path_option));
-      QFile splash = path.filePath("pj_splashscreen.png");
-      if (splash.exists())
-      {
-        main_pixmap = QPixmap(splash.fileName());
-      }
-    }
-
-    if (main_pixmap.isNull())
-    {
-      main_pixmap = getFunnySplashscreen();
-    }
-
-    QSplashScreen splash(main_pixmap, Qt::WindowStaysOnTopHint);
-    QDesktopWidget* desktop = QApplication::desktop();
-    const int scrn = desktop->screenNumber();
-    const QPoint currentDesktopsCenter = desktop->availableGeometry(scrn).center();
-    splash.move(currentDesktopsCenter - splash.rect().center());
-
-    splash.show();
-    app.processEvents();
-
-    auto deadline = QDateTime::currentDateTime().addMSecs(500);
-    while (QDateTime::currentDateTime() < deadline)
-    {
-      app.processEvents();
-    }
-
-    window = new MainWindow(parser);
-
-    deadline = QDateTime::currentDateTime().addMSecs(3000);
-    while (QDateTime::currentDateTime() < deadline && !splash.isHidden())
-    {
-      app.processEvents();
-    }
-  }
-
-  if (!window)
-  {
-    window = new MainWindow(parser);
-  }
+  MainWindow* window = new MainWindow(parser);
 
   window->show();
 
@@ -454,7 +336,7 @@ int main(int argc, char* argv[])
         QMessageBox box(window);
         box.setIcon(QMessageBox::Warning);
         box.setWindowTitle(QObject::tr("Python disabled"));
-        box.setText(QObject::tr("PlotJuggler could not initialize the embedded "
+        box.setText(QObject::tr("鸡你太美 could not initialize the embedded "
                                 "Python interpreter."));
         box.setInformativeText(
             QObject::tr("Python custom functions are disabled for this session. Lua custom "
@@ -479,99 +361,6 @@ int main(int argc, char* argv[])
   {
     window->on_buttonStreamingStart_clicked();
   }
-
-  // Check for new releases on GitHub
-  QNetworkAccessManager* manager_new_release = new QNetworkAccessManager(&app);
-  QObject::connect(
-      manager_new_release, &QNetworkAccessManager::finished, [window](QNetworkReply* reply) {
-        if (reply->error())
-        {
-          qDebug() << "GitHub release check error:" << reply->error() << reply->errorString();
-          return;
-        }
-
-        QString answer = reply->readAll();
-        QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
-        QJsonObject data = document.object();
-        QString url = data["html_url"].toString();
-        QString name = data["name"].toString();
-        QString tag_name = data["tag_name"].toString();
-
-        int online_number = GetVersionNumber(tag_name);
-        int current_number = GetVersionNumber(VERSION_STRING);
-
-        qDebug() << "Current version:" << VERSION_STRING << ". Latest release version:" << tag_name;
-
-        if (online_number > current_number)
-        {
-          QString message = QString("New release available: <b>%1</b><br>"
-                                    "<a href=\"%2\">View on GitHub</a>")
-                                .arg(name, url);
-          QPixmap icon(":/resources/success_kid.png");
-          window->showToast(message, icon);
-        }
-      });
-
-  QNetworkRequest request_new_release;
-  request_new_release.setUrl(
-      QUrl("https://api.github.com/repos/PlotJuggler/PlotJuggler/releases/latest"));
-
-  // Disable SSL peer verification for GitHub API (workaround for Qt5/OpenSSL 3.0 incompatibility)
-  QSslConfiguration sslConfig_release = request_new_release.sslConfiguration();
-  sslConfig_release.setPeerVerifyMode(QSslSocket::VerifyNone);
-  request_new_release.setSslConfiguration(sslConfig_release);
-
-  manager_new_release->get(request_new_release);
-
-  QNetworkAccessManager manager_message;
-  QObject::connect(
-      &manager_message, &QNetworkAccessManager::finished, [window](QNetworkReply* reply) {
-        if (reply->error())
-        {
-          qDebug() << "Telemetry reply error:" << reply->error() << reply->errorString();
-          return;
-        }
-        qDebug() << "Telemetry reply received";
-        QString answer = reply->readAll();
-        QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
-        QJsonObject data = document.object();
-        QString message = data["message"].toString();
-        window->setStatusBarMessage(message);
-      });
-
-  // These are 100% anonymous requests; no personal data is sent.
-  // We collect your statistics to improve PlotJuggler.
-  // Create JSON payload
-  QJsonObject payload;
-  payload["user_id"] = QString::fromLatin1(QSysInfo::machineUniqueId());
-  payload["os"] = QSysInfo::productType();
-  payload["version"] = VERSION_STRING;
-  payload["installation"] = QString(PJ_INSTALLATION);
-
-  QJsonDocument doc(payload);
-  QByteArray jsonData = doc.toJson();
-
-  // Test DNS resolution first
-  QHostInfo hostInfo = QHostInfo::fromName("app.plotjuggler.io");
-  if (hostInfo.error() != QHostInfo::NoError)
-  {
-    qDebug() << "DNS lookup failed:" << hostInfo.errorString()
-             << " Addresses found:" << hostInfo.addresses();
-  }
-
-  // Create network request
-  QNetworkRequest request_message;
-  request_message.setUrl(QUrl("https://app.plotjuggler.io/telemetry"));
-  request_message.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-  // Disable SSL peer verification for telemetry (workaround for Qt5/OpenSSL 3.0 incompatibility)
-  // This is acceptable for anonymous telemetry data
-  QSslConfiguration sslConfig = request_message.sslConfiguration();
-  sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-  request_message.setSslConfiguration(sslConfig);
-
-  // Send POST request
-  manager_message.post(request_message, jsonData);
 
   return app.exec();
 }

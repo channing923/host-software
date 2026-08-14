@@ -1,8 +1,8 @@
 name: plotjuggler
 adopt-info: plotjuggler # parse metadata from the plotjuggler part
-summary: The timeseries visualization tool that you deserve
+summary: 鸡你太美 - 多通道测量与设备配置平台
 description: |
-  QT5 based application to display time series in plots,
+  鸡你太美是一款基于 Qt5 的多通道测量与设备配置平台，
   using an intuitive "drag and drop" interface.
 
   The snap comes with only ROS 2 plugins.

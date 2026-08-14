@@ -60,8 +60,6 @@ public:
   void startStreamingPlugin(QString streamer_name);
   void enableStreamingNotificationsButton(bool enabled);
 
-  void setStatusBarMessage(QString message);
-
   /// Show a toast notification in the bottom-right corner
   /// @param message The text/HTML to display (supports rich text with clickable links)
   /// @param icon Optional 56x56 icon to show on the left

@@ -304,10 +304,10 @@ endif()
 
 set(DESKTOP_ICON_DIR "${CMAKE_INSTALL_PREFIX}/share/icons")
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/io.plotjuggler.PlotJuggler.desktop
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/jinitaimei.desktop
         DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/plotjuggler.svg
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/plotjuggler.png
         DESTINATION ${DESKTOP_ICON_DIR})
 
 # ######################## Main App, Libraries and Plugins

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-  <Name>PlotJuggler</Name>
+  <Name>鸡你太美</Name>
   <Version>3.17.2</Version>
-  <Title>PlotJuggler installer</Title>
+  <Title>鸡你太美安装程序</Title>
   <Publisher>Davide Faconti</Publisher>
-  <StartMenuDir>PlotJuggler</StartMenuDir>
+  <StartMenuDir>鸡你太美</StartMenuDir>
   <TargetDir>@ApplicationsDirX64@/PlotJuggler</TargetDir>
   <DependsOnLocalInstallerBinary>true</DependsOnLocalInstallerBinary>
   <RunProgram>@TargetDir@/PlotJuggler</RunProgram>

@@ -73,7 +73,7 @@ chmod +x "$LDPLOY" "$LDPLOY_QT"
 echo "==> Running linuxdeploy (Qt + base)"
 "$LDPLOY" --appimage-extract-and-run \
     --appdir "$APPDIR" \
-    -d "$REPO_ROOT/io.plotjuggler.PlotJuggler.desktop" \
+    -d "$REPO_ROOT/jinitaimei.desktop" \
     -i "$REPO_ROOT/plotjuggler.png" \
     --plugin qt
 

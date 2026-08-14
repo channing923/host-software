@@ -2037,14 +2037,6 @@ void MainWindow::enableStreamingNotificationsButton(bool enabled)
   }
 }
 
-void MainWindow::setStatusBarMessage(QString message)
-{
-  if (!message.isEmpty())
-  {
-    showToast(message);
-  }
-}
-
 void MainWindow::showToast(const QString& message, const QPixmap& icon)
 {
   if (_toast_manager)

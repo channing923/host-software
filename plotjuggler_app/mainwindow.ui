@@ -17,7 +17,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>PlotJuggler</string>
+   <string>鸡你太美</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -2159,7 +2159,7 @@
   </action>
   <action name="actionSupportPlotJuggler">
    <property name="text">
-    <string>Support PlotJuggler</string>
+    <string>支持鸡你太美</string>
    </property>
   </action>
   <action name="actionClearRecentData">

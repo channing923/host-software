@@ -2,7 +2,7 @@
 <package format="3">
     <name>plotjuggler</name>
     <version>3.17.2</version>
-    <description>PlotJuggler: juggle with data</description>
+    <description>鸡你太美：多通道测量与设备配置平台</description>
 
     <maintainer email="davide.faconti@gmail.com">Davide Faconti</maintainer>
     <license>MPL-2.0</license>

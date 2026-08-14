@@ -38,9 +38,6 @@ PreferencesDialog::PreferencesDialog(QWidget* parent)
   int precision = settings.value("Preferences::precision", 3).toInt();
   ui->comboBoxPrecision->setCurrentIndex(precision - 1);
 
-  bool no_splash = settings.value("Preferences::no_splash", false).toBool();
-  ui->checkBoxSkipSplash->setChecked(no_splash);
-
   // Behavior
   bool use_plot_color_index = settings.value("Preferences::use_plot_color_index", false).toBool();
   bool remember_color = settings.value("Preferences::remember_color", true).toBool();
@@ -111,7 +108,6 @@ void PreferencesDialog::on_buttonBox_accepted()
   settings.setValue("Preferences::precision", ui->comboBoxPrecision->currentIndex() + 1);
   settings.setValue("Preferences::use_separator", ui->checkBoxSeparator->isChecked());
   settings.setValue("Preferences::use_opengl", ui->checkBoxOpenGL->isChecked());
-  settings.setValue("Preferences::no_splash", ui->checkBoxSkipSplash->isChecked());
   settings.setValue("Preferences::autozoom_visibility",
                     ui->checkBoxAutoZoomVisibility->isChecked());
   settings.setValue("Preferences::autozoom_curve_added", ui->checkBoxAutoZoomAdded->isChecked());
